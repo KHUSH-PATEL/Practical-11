@@ -1,0 +1,74 @@
+﻿@model IEnumerable<Practical_11.Models.Product>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.File</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PurchaseDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PurchaseDate)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-warning" }) &nbsp;
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-primary" }) &nbsp;
+                    <button class="btn btn-danger" onclick="confirmDelete(@item.Id)">Delete</button>
+                    <input id="getId" type="hidden" value="@item.Id" />
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts {
+    <script>
+        function confirmDelete(itemId) {
+            var result = window.confirm("Are you sure you want to delete this item?");
+            if (result) {
+                window.location.href = '@Url.Action("Delete", "Product")' + '?id=' + itemId;
+            } else {
+                window.location.href = '@Url.Action("GetAllProducts", "Product")';
+            }
+        }
+    </script>
+}
